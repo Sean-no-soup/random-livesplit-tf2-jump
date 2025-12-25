@@ -1,15 +1,13 @@
-from os import listdir,startfile
+from os import listdir,startfile,path
 from random import choice
 from tkinter import Tk
 import xml.etree.ElementTree as ElementTree
 
-
+#make sure this is correct
 map_path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Team Fortress 2\\tf\\maps"
-#you'll need to manually find or make this and put the template there, not bothering to make a dialog unless enough people want it
-save_path = ""
-assert save_path != "", "save directory invalid"
+save_path = path.dirname(__file__)+"\\" #saving to local directory
 
-jumplist = [item for item in listdir(map_path) if "jump" in item]
+jumplist = [item[:-4] for item in listdir(map_path) if "jump" in item]
 random_jump = choice(jumplist)
 print(random_jump+' selected')
 
@@ -18,7 +16,7 @@ root.after_idle(root.withdraw)
 root.after_idle(root.clipboard_clear)
 root.after_idle(root.clipboard_append, f"map {random_jump}")
 root.after_idle(print, 'The clipboard is ready.')
-root.after(10000, root.destroy)
+root.after(15000, root.destroy) #wait 15 seconds so text is readable
 
 try:
     startfile(f"{save_path}{random_jump}.lss")
